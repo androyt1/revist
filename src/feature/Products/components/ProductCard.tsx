@@ -18,6 +18,7 @@ const ProductCard = ({ title, price, category, image }: Product) => {
         <img
           src={image}
           alt={"Product image"}
+          loading="lazy"
           aria-label="Image of product"
           className="h-[200px] w-full object-contain hover:scale-105 hover:rotate-12 transition-transform duration-300 z-10"
         />
