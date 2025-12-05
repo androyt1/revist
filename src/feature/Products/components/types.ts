@@ -9,3 +9,5 @@ export type Product = {
 export type ProductListProp = {
   products: Product[];
 };
+
+export type sortOption = "lowest to highest" | "highest to lowest";
