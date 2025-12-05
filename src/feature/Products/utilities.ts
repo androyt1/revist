@@ -1,4 +1,4 @@
-import { type Product } from "./components/types";
+import { type Product, type sortOption } from "./components/types";
 
 export const managePriceFilter = (products: Product[], range: string) => {
   if (range === "All items") {
@@ -12,7 +12,10 @@ export const managePriceFilter = (products: Product[], range: string) => {
   }
 };
 
-export const filterByCategory = (items: Product[], category: string) => {
+export const filterByCategory = (
+  items: Product[],
+  category: string
+): Product[] => {
   if (category === "all") {
     return items;
   } else {
@@ -22,12 +25,23 @@ export const filterByCategory = (items: Product[], category: string) => {
   }
 };
 
-export const handleUserSearch = (items: Product[], userSearch: string) => {
+export const handleUserSearch = (
+  items: Product[],
+  userSearch: string
+): Product[] => {
   if (userSearch) {
     return items.filter((item) =>
       item.title.toLowerCase().includes(userSearch.toLowerCase())
     );
   } else {
     return items;
+  }
+};
+
+export const sortByPrice = (items: Product[], sort: sortOption) => {
+  if (sort === "lowest to highest") {
+    return [...items].sort((a, b) => a.price - b.price);
+  } else {
+    return [...items].sort((a, b) => b.price - a.price);
   }
 };
