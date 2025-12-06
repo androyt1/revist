@@ -16,7 +16,7 @@ const CategoryFilter = ({
       onChange={handleSelectCategory}
       name="categories"
       id="categories"
-      className="col-span-1 md:col-span-2 px-3 py-2 rounded-xl ring ring-stone-300 shadow-stone-400 "
+      className="col-span-1 md:col-span-2 px-3 py-2  ring ring-stone-300 shadow-stone-400 "
     >
       <option value={""} disabled hidden>
         Filter by Category
