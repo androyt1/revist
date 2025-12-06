@@ -7,7 +7,10 @@ export type Product = {
 };
 
 export type ProductListProp = {
-  products: Product[];
+  filteredProducts: Product[];
+  safePage: number;
+  gotoPrevPage: () => void;
+  gotoNextPage: () => void;
 };
 
 export type sortOption = "lowest to highest" | "highest to lowest";

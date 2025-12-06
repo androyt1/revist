@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   ProductList,
   useProducts,
@@ -19,6 +19,8 @@ import {
 
 const App = () => {
   const { products, loading, error } = useProducts();
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
   const {
     search,
     category,
@@ -30,19 +32,37 @@ const App = () => {
     handleSortOption,
   } = useProductStates();
 
-  const categoryFilterProps = { category, handleSelectCategory };
-  const priceFilterProps = { priceRange, handleSelectPriceRange };
-  const inputFilterProps = { search, handleSearch };
-  const SortFilterProps = { sort, handleSortOption };
-
   const filteredProducts = useMemo(() => {
     let items = products;
     items = filterByCategory(items, category);
     items = handleUserSearch(items, search);
     items = managePriceFilter(items, priceRange);
     items = sortByPrice(items, sort);
+
     return items;
   }, [products, category, search, priceRange, sort]);
+
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const safePage = currentPage > totalPages ? 1 : currentPage;
+  const gotoPrevPage = () => {
+    if (safePage > 1) setCurrentPage((prev) => prev - 1);
+  };
+
+  const gotoNextPage = () => {
+    if (safePage < totalPages) setCurrentPage((prev) => prev + 1);
+  };
+
+  const categoryFilterProps = { category, handleSelectCategory };
+  const priceFilterProps = { priceRange, handleSelectPriceRange };
+  const inputFilterProps = { search, handleSearch };
+  const SortFilterProps = { sort, handleSortOption };
+  const ProductListProps = {
+    filteredProducts,
+    safePage,
+    gotoNextPage,
+    gotoPrevPage,
+  };
 
   if (loading) {
     return <p>Loading products please wait</p>;
@@ -66,7 +86,7 @@ const App = () => {
             No products found. Try adjusting your filters!
           </p>
         ) : (
-          <ProductList products={filteredProducts} />
+          <ProductList {...ProductListProps} />
         )}
       </main>
     </Layout>
